@@ -18,7 +18,7 @@ body {background-color: #CCC;}
 
 .wikipedia-container {
     float:right;
-    width:290px;
+    width:350px;
     padding:10px;
     margin-right: 10px;
     background-color: rgba(255,255,255,0.7);
@@ -26,7 +26,7 @@ body {background-color: #CCC;}
 
 .nytimes-container {
     padding: 10px;
-    margin-right:300px;
+    margin-right:360px;
     background-color: rgba(255,255,255,0.7);
 }
 

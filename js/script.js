@@ -11,7 +11,7 @@ function loadData() {
     $wikiElem.text("");
     $nytElem.text("");
 
-    // load streetview
+    // load streetview in Background
 
     var streetName = $("#street").val();
     var cityName = $("#city").val();
@@ -19,21 +19,25 @@ function loadData() {
 
     $greeting.text("So you want to live at "+ address +"?");
 
-    var streetViewURL = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location="+address+"";
-    $body.append('<img class="bgimg" src="' + streetViewURL + '">');
+    var streetViewURL = "https://maps.googleapis.com/maps/api/streetview?size=1080x720&location="+address+"";
+    $body.append('<img class="bgimg" src="' + streetViewURL + '">');  
 
-    // YOUR CODE GOES HERE!
+    /***
+     * Your New York Times Api AJAX Request goes here
+     */
 
-    // var streetStr = $("#street").val();
-    // var cityStr = $("#city").val();
-    // var address = streetStr + ", " + cityStr;
-    
-    // $("label").css("color","#fafafa");
-    // $greeting.text("So, you want to live at " + address + "?").css("color","#fafafa");
-    // var streetViewURL = "http://maps.googleapis.com/maps/api/streetview?size=600x300&location="+ address + " ";
-    // $body.append('<img class="bgimg" src="'+streetViewURL+'">');
-   
-
+    var nyTimesURL = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q='+ cityName + '&sort=newest&api-key=a4f8b6864c3e4db7b282c9ca174b6cdc';
+    $.getJSON(nyTimesURL, function(data){
+        $nytHeaderElem.text('New York Times Article About '+ cityName);
+        articles = data.response.docs;
+        for(var i=0; i< articles.length; i++){
+            var article= articles[i];
+            $nytElem.append('<li class="article">'+ 
+        '<a href="' +article.web_url+ '">' + article.headline.main +'</a>'+
+        '<p>'+ article.snippet +'</p>'+
+        '</li>');
+        };
+    })
     return false;
 
     
