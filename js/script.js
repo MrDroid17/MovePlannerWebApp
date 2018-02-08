@@ -26,7 +26,7 @@ function loadData() {
      * Your New York Times Api AJAX Request goes here
      */
 
-    var nyTimesURL = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q='+ cityName + '&sort=newest&api-key=a4f8b6864c3e4db7b282c9ca174b6cdc';
+    var nyTimesURL = 'https://api.nyasdtimes.com/svc/search/v2/articlesearch.json?q='+ cityName + '&sort=newest&api-key=a4f8b6864c3e4db7b282c9ca174b6cdc';
     $.getJSON(nyTimesURL, function(data){
         $nytHeaderElem.text('New York Times Article About '+ cityName);
         articles = data.response.docs;
@@ -37,7 +37,12 @@ function loadData() {
         '<p>'+ article.snippet +'</p>'+
         '</li>');
         };
-    })
+    }).error(function(e){
+        $nytHeaderElem.text('New York Times Article cannot be loaded')
+    });
+
+
+
     return false;
 
     
