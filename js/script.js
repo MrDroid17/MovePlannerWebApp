@@ -25,15 +25,11 @@ function loadData() {
     /***
      * Your New York Times Api AJAX Request goes here
      */
-    /***
-     * The Hindu Api-   0994813ad94e4cc2aa2db6ab3e0308c9
-     * https://newsapi.org/v2/top-headlines?delhi&apiKey=0994813ad94e4cc2aa2db6ab3e0308c9
-     * https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=0994813ad94e4cc2aa2db6ab3e0308c9
-     */
+   
 
     var nyTimesURL = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q='+ cityName + '&sort=newest&api-key=a4f8b6864c3e4db7b282c9ca174b6cdc';
     $.getJSON(nyTimesURL, function(data){
-        $nytHeaderElem.text('New York Times Article About '+ cityName);
+        $nytHeaderElem.text('Article About '+ cityName);
         articles = data.response.docs;
         for(var i=0; i< articles.length; i++){
             var article= articles[i];
@@ -41,7 +37,7 @@ function loadData() {
         '<a href="' +article.web_url+ '">' + article.headline.main +'</a>'+
         '<p>'+ article.snippet +'</p>'+
         '</li>');
-        };
+    };
 
         /**
          * As of jQuery 1.8, .error() is deprecated. Use .fail() instead.`
@@ -54,6 +50,11 @@ function loadData() {
      * Wikipedia Ajax reques goes here
      */
     var wikipediaURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + cityName + '&formant=json&callback=wikiCallback';
+    
+    //function for timeout
+    var wikiRequestTimeout= setTimeout(function(){
+        $wikiElem.text('Failed to load Wikipedia Links. ');
+    }, 5000 );
     $.ajax(wikipediaURL, {
         dataType: "jsonp",
         success: function( response) {
@@ -64,13 +65,13 @@ function loadData() {
                 var url= 'https://en.wikipedia.org/wiki/' + articleStr;
                 $wikiElem.append('<li><a href="' +url + '">' + articleStr + '</a></li>'); 
             };
+
+            clearTimeout(wikiRequestTimeout);
         }
     });
 
-
     return false;
-
-    
+ 
 };
 
 $('#form-container').submit(loadData);
